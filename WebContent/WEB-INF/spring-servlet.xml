@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:task="http://www.springframework.org/schema/task"
+    xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	http://www.springframework.org/schema/data/mongo
+	http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
+	http://www.springframework.org/schema/task
+   http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+    <!-- job的配置开始 -->
+    <bean id="myJobDetail"
+        class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="springQuartzShe" />
+        </property>
+        <property name="targetMethod">
+            <value>sheduleQuartz</value>
+        </property>
+    </bean>
+    
+    <!-- 调度的配置开始 -->
+    <bean id="crontestJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail">
+            <ref bean="myJobDetail" />
+        </property>
+        <property name="cronExpression">
+            <value>0/1 * * * * ?</value>
+        </property>
+    </bean>
+    <!-- 调度的配置结束 -->
+
+
+    <!-- 启动触发器的配置开始 -->
+    <bean name="startQuertz" lazy-init="false" autowire="no"
+        class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="crontestJobTrigger" />
+            </list>
+        </property>
+    </bean>
+    <!-- 启动触发器的配置结束 -->
+    
+    <!-- Spring-Task定时任务 配置文件方式  在Spring3.0之后使用-->
+    <task:scheduled-tasks>
+        <task:scheduled ref="springTaskShedule" method="springShedule" cron="0/1 * * * * ?"/>
+    </task:scheduled-tasks>
+	<!-- spring-Task定时任务注解方式-->
+    <task:annotation-driven scheduler="myScheduler" mode="proxy"/>
+	<!--连接池 -->
+    <task:scheduler id="myScheduler" pool-size="20"/>
+    
+    
+	<!-- 对web包中的所有类进行扫描，以完成Bean创建和自动依赖注入的功能 -->
+	<context:component-scan base-package="com.meihf.mjoyblog.*" />
+	<!-- 支持spring3.0新的mvc注解 -->
+	<mvc:annotation-driven />
+	<mvc:resources mapping="/style/**" location="/style/" />
+
+	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+
+	<!-- ViewResolver -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	
+	<!-- Spring 的统一异常处理 -->
+	<bean id="exceptionHandler" class="com.meihf.mjoyblog.exception.MJoyBlogExceptionHandler"/>
+
+	<!-- 各种Bean的配置 -->
+	<import resource="classpath:application-beans.xml" />
+	
+	<!-- MongoDB的配置 -->
+	<import resource="classpath:mongodb-config.xml" />
+</beans>

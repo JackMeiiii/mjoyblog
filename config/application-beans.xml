@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- 启用Autowired自动装配 -->
+	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+	
+	<!-- 系统参数DAO -->
+	<bean id="sysParamDao" class="com.meihf.mjoyblog.dao.SysParamDao"/>
+	<!-- 错误编码DAO -->
+	<bean id="errorCodeDao" class="com.meihf.mjoyblog.dao.ErrorCodeDao"/>
+	<!-- 用户表DAO -->
+	<bean id="userDao" class="com.meihf.mjoyblog.dao.UserDao"/>
+	<!-- 目录表DAO -->
+	<bean id="catalogDao" class="com.meihf.mjoyblog.dao.CatalogDao"/>
+	<!-- 文章表DAO -->
+	<bean id="articleDao" class="com.meihf.mjoyblog.dao.ArticleDao"/>
+	<!-- 评论表DAO -->
+	<bean id="commentDao" class="com.meihf.mjoyblog.dao.CommentDao"/>
+	
+	<!-- 用户表Svc -->
+	<bean id="userSvc" class="com.meihf.mjoyblog.service.user.UserSvcImpl"/>
+	<!-- 目录表Svc -->
+	<bean id="catalogSvc" class="com.meihf.mjoyblog.service.catalog.CatalogSvcImpl"/>
+	<!-- 错误编码表Svc -->
+	<bean id="errorCodeSvc" class="com.meihf.mjoyblog.service.error.ErrorCodeSvcImpl"/>
+	<!-- 系统配置表 -->
+	<bean id="sysParamSvc" class="com.meihf.mjoyblog.service.sysparam.SysParamSvcImpl"/>
+	<!-- 文章表 -->
+	<bean id="articleSvc" class="com.meihf.mjoyblog.service.article.ArticleSvcImpl"/>
+	<!-- 评论表 -->
+	<bean id="commentSvc" class="com.meihf.mjoyblog.service.comment.CommentSvcImpl"/>
+	<!-- Spring Bean 工具类  -->
+	<bean id="springBeanUtil" class="com.meihf.mjoyblog.util.SpringBeanUtil" />
+	
+	<!-- springQuartz定时任务 -->
+	<bean id="springQuartzShe" class="com.meihf.mjoyblog.spring.quartz.SpringSheduleQuartz" />
+	
+		<!-- springTask定时任务 -->
+	<!-- <bean id="springTaskShedule" class="com.meihf.mjoyblog.spring.task.SpringSheduleConfiguration" /> -->
+</beans>

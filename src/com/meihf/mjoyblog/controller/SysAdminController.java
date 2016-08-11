@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -23,7 +22,6 @@ import com.meihf.mjoyblog.bean.PageRetInfo;
 import com.meihf.mjoyblog.bean.User;
 import com.meihf.mjoyblog.service.article.IArticleSvc;
 import com.meihf.mjoyblog.service.catalog.ICatalogSvc;
-import com.meihf.mjoyblog.service.sysparam.ISysParamSvc;
 import com.meihf.mjoyblog.service.user.IUserSvc;
 import com.meihf.mjoyblog.util.Base64Util;
 import com.meihf.mjoyblog.util.DateUtil;
@@ -44,13 +42,7 @@ import com.meihf.mjoyblog.util.SysUtils;
 public class SysAdminController {
 	
 	@Autowired
-	private MongoTemplate mongoTemplate;
-	
-	@Autowired
 	private IUserSvc userSvc;
-	
-	@Autowired
-	private ISysParamSvc sysParamSvc;
 	
 	@Autowired
 	private ICatalogSvc iCatalogSvc;

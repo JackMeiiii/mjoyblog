@@ -6,7 +6,7 @@
 <script type="text/javascript" src="<%=request.getContextPath() %>/style/js/jquery.nicescroll.min.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/style/css/pure-min.css" />
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/style/css/mjoystyle.css" />
-<link type="image/x-icon" rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico" />
+<link type="image/x-icon" rel="shortcut icon" href="${pageContext.request.contextPath}/style/img/favicon.ico" />
 <link type="image/x-icon" rel="icon" href="${pageContext.request.contextPath}/style/img/favicon.ico" />
 <script type="text/javascript">
 	var _path = '<%=request.getContextPath()%>';

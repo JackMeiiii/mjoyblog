@@ -1,1 +1,1 @@
-<%response.sendRedirect(request.getContextPath()+"/admin/index.do");%>
+<%response.sendRedirect(request.getContextPath()+"/index.do");%>

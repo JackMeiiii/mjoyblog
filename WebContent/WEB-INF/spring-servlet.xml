@@ -16,7 +16,48 @@
 	http://www.springframework.org/schema/task
    http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
+ <!-- job的配置开始 -->
+    <bean id="myJobDetail"
+        class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <ref bean="springQuartzShe" />
+        </property>
+        <property name="targetMethod">
+            <value>sheduleQuartz</value>
+        </property>
+    </bean>
+    
+    <!-- 调度的配置开始 -->
+    <bean id="crontestJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail">
+            <ref bean="myJobDetail" />
+        </property>
+        <property name="cronExpression">
+            <value>0/1 * * * * ?</value>
+        </property>
+    </bean>
+    <!-- 调度的配置结束 -->
 
+
+    <!-- 启动触发器的配置开始 -->
+    <bean name="startQuertz" lazy-init="false" autowire="no"
+        class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="crontestJobTrigger" />
+            </list>
+        </property>
+    </bean>
+    <!-- 启动触发器的配置结束 -->
+    
+    <!-- Spring-Task定时任务 配置文件方式  在Spring3.0之后使用-->
+    <task:scheduled-tasks>
+        <task:scheduled ref="springTaskShedule" method="springShedule" cron="0/1 * * * * ?"/>
+    </task:scheduled-tasks>
+	<!-- spring-Task定时任务注解方式-->
+    <task:annotation-driven scheduler="myScheduler" mode="proxy"/>
+	<!--连接池 -->
+    <task:scheduler id="myScheduler" pool-size="20"/>
     
     
 	<!-- 对web包中的所有类进行扫描，以完成Bean创建和自动依赖注入的功能 -->
